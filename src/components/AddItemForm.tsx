@@ -1,32 +1,32 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-
-type PropsType = {
-    callBack: (title: string) => void
+export type PropsType = {
+    callback:(newTitle:string)=>void
 }
 
 export const AddItemForm = (props: PropsType) => {
-    const {callBack} = props
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
-        if (e.charCode === 13) {
-            addTask();
-        }
-    }
+
     const addTask = () => {
         let newTitle = title.trim();
         if (newTitle !== "") {
-            callBack(newTitle);
+            props.callback(newTitle);
             setTitle("");
         } else {
             setError("Title is required");
         }
     }
 
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
+
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null);
+        if (e.charCode === 13) {
+            addTask();
+        }
+    }
     return (
         <div>
             <input value={title}
@@ -35,7 +35,7 @@ export const AddItemForm = (props: PropsType) => {
                    className={error ? "error" : ""}
             />
             <button onClick={addTask}>+</button>
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="error-message">{error}</div>}{/**/}
         </div>
     );
 };
