@@ -1,19 +1,22 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import { IconButton, TextField} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
 export type PropsType = {
-    callback:(newTitle:string)=>void
+    callback: (newTitle: string) => void
 }
 
 export const AddItemForm = (props: PropsType) => {
-    let [title, setTitle] = useState("")
+    let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
 
     const addTask = () => {
         let newTitle = title.trim();
-        if (newTitle !== "") {
+        if (newTitle !== '') {
             props.callback(newTitle);
-            setTitle("");
+            setTitle('');
         } else {
-            setError("Title is required");
+            setError('Title is required');
         }
     }
 
@@ -29,13 +32,19 @@ export const AddItemForm = (props: PropsType) => {
     }
     return (
         <div>
-            <input value={title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-                   className={error ? "error" : ""}
+            <TextField value={title}
+                       label={'Type value...'}
+                       onChange={onChangeHandler}
+                       onKeyPress={onKeyPressHandler}
+                       error={!!error}
+                       variant={'outlined'}
+                       style={{borderRadius: '5px'}}
+                       helperText={error}
             />
-            <button onClick={addTask}>+</button>
-            {error && <div className="error-message">{error}</div>}{/**/}
+            <IconButton onClick={addTask} color={'primary'}>
+               <AddIcon/>
+            </IconButton>
+
         </div>
     );
 };
