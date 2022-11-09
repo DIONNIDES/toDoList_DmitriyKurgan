@@ -39,7 +39,7 @@ function App() {
         setTasks({...tasks});
     }
 
-    function changeFilter(value: FilterValuesType, todolistId: string) {
+    function changeFilter(todolistId: string,value: FilterValuesType) {
         let todolist = todolists.find(tl => tl.id === todolistId);
         if (todolist) {
             todolist.filter = value;
@@ -47,7 +47,7 @@ function App() {
         }
     }
 
-    function changeStatus(id: string, isDone: boolean, todolistId: string) {
+    function changeStatus(todolistId: string,id: string, isDone: boolean) {
         //достанем нужный массив по todolistId:
         let todolistTasks = tasks[todolistId];
         // найдём нужную таску:
