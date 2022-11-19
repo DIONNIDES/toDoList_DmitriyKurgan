@@ -1,9 +1,9 @@
 import React, {memo, useCallback} from 'react';
 import {CheckboxComponent} from './components/CheckboxComponent';
 import {EditableSpan} from './EditableSpan';
-import {TaskType} from './TodolistWithRedux';
 import {useDispatch} from 'react-redux';
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
+import {TaskStatuses, TaskType} from './api/api';
 
 type TaskPropsType = {
     todolistID:string
@@ -14,22 +14,21 @@ type TaskPropsType = {
 export const TaskWithRedux = memo(({todolistID,task}:TaskPropsType)=>{
 
     const dispatch = useDispatch();
-
-
-    const onClickHandler = useCallback( (taskID:string) =>{
+    const onClickHandler = useCallback( () =>{
         dispatch(removeTaskAC(todolistID,task.id))},[dispatch])
-    const onTitleChangeHandler = useCallback((taskID:string,newValue: string) => {
-        dispatch(changeTaskTitleAC(todolistID, task.id, newValue ));
-    },[dispatch])
-    const onChangeHandler = useCallback( (taskID:string,checked:boolean) => {
-        dispatch(changeTaskStatusAC(todolistID,task.id,checked) );
-    },[dispatch]);
+    const onTitleChangeHandler = useCallback((value: string) => {
+        dispatch(changeTaskTitleAC(todolistID, task.id, value ));
+    },[dispatch,todolistID,task.id])
+    const onChangeHandler = useCallback( (value:boolean) => {
+        dispatch(changeTaskStatusAC(todolistID,task.id,value));
+    },[dispatch, todolistID,task.id]);
+
 
     return (
-        <li key={task.id} className={task.isDone ? "is-done" : ""}>
-            <CheckboxComponent callback={(checked:boolean)=>{onChangeHandler(task.id, checked)}} checked={task.isDone}/>
-            <EditableSpan value={task.title} onChange={(value:string)=>onTitleChangeHandler(task.id,value)} />
-            <button onClick={()=>onClickHandler(task.id)}>x</button>
+        <li key={task.id} className={task.status? "is-done" : ""}>
+            <CheckboxComponent callback={(value)=>onChangeHandler(value)} checked={task.status === TaskStatuses.Completed}/>
+            <EditableSpan value={task.title} onChange={(value)=>onTitleChangeHandler(value)} />
+            <button onClick={onClickHandler}>x</button>
         </li>
     );
 }

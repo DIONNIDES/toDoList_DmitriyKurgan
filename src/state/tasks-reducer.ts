@@ -1,6 +1,6 @@
-import {TasksStateType} from '../AppWithReducer';
-import {AddTodolistType, RemoveTodolistType} from './todolists-reducer';
+import {AddTodolistType, RemoveTodolistType, SetTodolistsType} from './todolists-reducer';
 import {v1} from 'uuid';
+import {TasksStateType} from '../AppWithRedux';
 
 
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>
@@ -14,6 +14,7 @@ export type CzarType =
     | ChangeTaskStatusACType
     | AddTodolistType
     | RemoveTodolistType
+    | SetTodolistsType
 
 let initialState: TasksStateType = {}
 
@@ -21,12 +22,10 @@ let initialState: TasksStateType = {}
 export const tasksReducer = (state: TasksStateType = initialState, action: CzarType) => {
     switch (action.type) {
         case 'REMOVE-TASK': {
-            debugger
             return {...state, [action.payload.todolistId]: state[action.payload.todolistId].filter(t => t.id !== action.payload.taskID)
             }
         }
         case 'ADD-TASK': {
-            debugger
             let newTask = {id: v1(), title: action.payload.newTaskTitle, isDone: false}
             return {...state, [action.payload.todolistId]: [...state[action.payload.todolistId], newTask]}
         }
@@ -52,12 +51,19 @@ export const tasksReducer = (state: TasksStateType = initialState, action: CzarT
             return {...state, [action.payload.todolistId]: []}
         }
         case 'REMOVE-TODOLIST': {
-            /*            let copyState = {...state} //простой способо через отдельную переменную
-                        delete copyState[action.payload.todolistId]
-                        return copyState;*/
             const {[action.payload.todolistId]: [], ...restTasks} = {...state} //через деструктуризацию
             return restTasks
         }
+        case 'SET-TODOLISTS': {
+            let stateCopy = {...state};
+                action.payload.todolists.forEach( tl =>{
+                    stateCopy[tl.id] = []
+                })
+            return stateCopy;
+        }
+        // case 'SET-TASKS':{
+        //
+        // }
         default:
             return state
     }
