@@ -8,19 +8,19 @@ import {
 
 
 import {v1} from 'uuid';
-import {FilterValuesType, TodolistType} from '../AppWithRedux';
+import {FilterValuesType, TodolistDomainType} from '../AppWithRedux';
 
 let todolistId1:string;
 let todolistId2:string;
-let startState:Array<TodolistType>
+let startState:Array<TodolistDomainType>
 
 beforeEach(()=>{
-    let todolistId1 = v1();
-    let todolistId2 = v1();
-    let startState = [
-        {id: todolistId1, title: 'What to learn', filter: 'all'},
-        {id: todolistId2, title: 'What to buy', filter: 'all'}
-    ]
+     todolistId1 = v1();
+     todolistId2 = v1();
+     startState = [
+        {id: todolistId1, title: 'What to learn', filter: 'all', addedDate:'', order:1},
+        {id: todolistId2, title: 'What to buy', filter: 'all', addedDate:'', order:1},
+    ] as TodolistDomainType[]
 })
 
 

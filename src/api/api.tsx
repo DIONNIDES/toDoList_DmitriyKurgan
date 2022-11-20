@@ -16,7 +16,7 @@ export const todolistAPI = {
         return axiosInstance.get<TodolistType[]>('todo-lists')
     },
     createTodolist(title:string) {
-        return axiosInstance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TodolistType }>>>('todo-lists', {title})
+        return axiosInstance.post<{title: string }, AxiosResponse<ResponseType<{ item: TodolistType }>>>('todo-lists', {title})
     },
     deleteTodolist(todolistId: string) {
         return axiosInstance.delete<ResponseType>(`todo-lists/${todolistId}`)
@@ -25,16 +25,16 @@ export const todolistAPI = {
         return axiosInstance.put<{ title: string }, AxiosResponse<ResponseType>>(`todo-lists/${todolistId}`, {title: title})
     },
     getTasks(todolistId: string) {
-        return axiosInstance.get(`todo-lists/${todolistId}/tasks`)
+        return axiosInstance.get<RequestedTasksType>(`todo-lists/${todolistId}/tasks`)
     },
     createTask(todolistId: string, title: string) {
-        return axiosInstance.post(`todo-lists/${todolistId}/tasks`, {title: title})
+        return axiosInstance.post<{title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks`, {title: title})
     },
     deleteTask(todolistId: string, taskId: string) {
         return axiosInstance.delete(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    updateTask(todolistId: string, taskId: string) {
-        return axiosInstance.post(`todo-lists/${todolistId}/tasks/${taskId}`)
+    updateTask(todolistId: string, taskId: string, model:UpdatedTaskType) {
+        return axiosInstance.put(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 }
 
@@ -63,8 +63,8 @@ export type TaskType = {
     description: string
     title: string
     completed: boolean
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
     id: string
@@ -73,9 +73,24 @@ export type TaskType = {
     addedDate: string
 }
 
+export type UpdatedTaskType = {
+    title: string
+    description: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
+}
+
 export type ResponseType<T={}>= {
     fieldErrors:string[]
     resultCode: number
     messages: string[]
     data: T
+}
+
+export type RequestedTasksType = {
+    items: TaskType[]
+    error: string
+    totalCount:number
 }

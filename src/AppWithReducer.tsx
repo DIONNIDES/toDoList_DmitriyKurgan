@@ -10,7 +10,7 @@
 //     removeTodolistAC,
 //     todolistsReducer
 // } from './state/todolists-reducer';
-// import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './state/tasks-reducer';
+// import {addTaskAC, updateTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './state/tasks-reducer';
 //
 // export type FilterValuesType = "all" | "active" | "completed";
 // export type TodolistType = {
@@ -61,7 +61,7 @@
 //     }
 //
 //     function changeStatus(todolistId: string, taskID: string, newTaskStatus: boolean) {
-//             dispatchToTasks(changeTaskStatusAC(todolistId, taskID, newTaskStatus));
+//             dispatchToTasks(updateTaskAC(todolistId, taskID, newTaskStatus));
 //     }
 //     function changeTaskTitle(todolistId: string, taskID: string, newTaskTitle: string) {
 //             dispatchToTasks(changeTaskTitleAC(todolistId,taskID, newTaskTitle))

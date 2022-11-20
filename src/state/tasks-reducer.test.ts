@@ -1,6 +1,6 @@
 import {TasksStateType} from '../App';
 import {v1} from 'uuid';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer';
+import {addTaskAC, updateTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer';
 
 let startState: TasksStateType;
 
@@ -78,7 +78,7 @@ test('correct task title should be changed in array', ()=>{
 });
 
 test('correct task status should be added to array', ()=>{
-    const action = changeTaskStatusAC('todolistId1','2', false );
+    const action = updateTaskAC('todolistId1','2', false );
     const endState = tasksReducer(startState, action);
     expect(endState).toStrictEqual({
         'todolistId1': [

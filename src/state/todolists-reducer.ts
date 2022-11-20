@@ -9,8 +9,8 @@ export type RemoveTodolistType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistType = ReturnType<typeof addTodolistAC>
 export type ChangeTodolistTitleType = ReturnType<typeof changeTodolistTitleAC>
 export type ChangeTodolistFilterType = ReturnType<typeof changeTodolistFilterAC>
-export type SetTodolistsType = ReturnType<typeof setTodolistsAC>
-export type CzarType = RemoveTodolistType | AddTodolistType | ChangeTodolistTitleType | ChangeTodolistFilterType | SetTodolistsType
+export type SetTodolistsACType = ReturnType<typeof setTodolistsAC>
+export type CzarType = RemoveTodolistType | AddTodolistType | ChangeTodolistTitleType | ChangeTodolistFilterType | SetTodolistsACType
 
 
 export const todolistsReducer = (state: TodolistDomainType[]=initialState, action: CzarType) => {

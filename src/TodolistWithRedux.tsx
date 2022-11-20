@@ -1,21 +1,15 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 import {TodolistDomainType} from './AppWithRedux';
-import {addTaskAC} from './state/tasks-reducer';
-import {
-    changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    deleteTodolistTC,
-    removeTodolistAC, updateTodolistTC
-} from './state/todolists-reducer';
+import {addTaskTC, requestedTasksTC} from './state/tasks-reducer';
+import {changeTodolistFilterAC, deleteTodolistTC, updateTodolistTC} from './state/todolists-reducer';
 import {IconButton} from '@material-ui/core';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Button} from '@mui/material';
 import {TaskStatuses, TaskType} from './api/api';
-import {Task} from './Task';
 import {TaskWithRedux} from './TaskWithRedux';
 
 
@@ -33,7 +27,7 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
         const dispatch = useDispatch();
 
         const addTask = useCallback((title: string) => {
-            dispatch(addTaskAC(todolist.id, title))
+            dispatch(addTaskTC(todolist.id, title))
         }, [dispatch])
 
         const removeTodolist = useCallback(() => {
@@ -56,6 +50,9 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
             tasksForTodolist = tasksForTodolist
         }
 
+        useEffect(()=>{
+            dispatch(requestedTasksTC(todolist.id))
+        }, [todolist.id])
         return <div>
             <h3><EditableSpan value={todolist.title} onChange={changeTodolistTitle}/>
                 <IconButton onClick={removeTodolist}>
