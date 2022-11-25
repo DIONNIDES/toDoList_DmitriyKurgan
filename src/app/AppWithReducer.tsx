@@ -9,7 +9,7 @@
 //     changeTodolistTitleAC,
 //     removeTodolistAC,
 //     todolistsReducer
-// } from './state/todolists-reducer';
+// } from './state/TodolistsList-reducer';
 // import {addTaskAC, updateTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './state/tasks-reducer';
 //
 // export type FilterValuesType = "all" | "active" | "completed";
@@ -28,7 +28,7 @@
 //     let todolistId1 = v1();
 //     let todolistId2 = v1();
 //
-//     let [todolists, dispatchToTodolists] = useReducer(todolistsReducer,[
+//     let [TodolistsList, dispatchToTodolists] = useReducer(todolistsReducer,[
 //         {id: todolistId1, title: "What to learn", filter: "all"},
 //         {id: todolistId2, title: "What to buy", filter: "all"}
 //     ])
@@ -53,7 +53,7 @@
 //     }
 //
 //     function changeFilter( todolistId: string, value: FilterValuesType) {
-//         let todolist = todolists.find(tl => tl.id === todolistId);
+//         let todolist = TodolistsList.find(tl => tl.id === todolistId);
 //         if (todolist) {
 //             todolist.filter = value;
 //             dispatchToTodolists(changeTodolistFilterAC(todolistId,value));
@@ -86,7 +86,7 @@
 //         <div className="App">
 //             <AddItemForm addItem={addTodolist} />
 //             {
-//                 todolists.map(tl => {
+//                 TodolistsList.map(tl => {
 //                     let allTodolistTasks = tasks[tl.id];
 //                     let tasksForTodolist = allTodolistTasks;
 //

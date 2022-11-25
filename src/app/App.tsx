@@ -40,10 +40,10 @@
 //     }
 //
 //     function changeFilter(todolistId: string,value: FilterValuesType) {
-//         let todolist = todolists.find(tl => tl.id === todolistId);
+//         let todolist = TodolistsList.find(tl => tl.id === todolistId);
 //         if (todolist) {
 //             todolist.filter = value;
-//             setTodolists([...todolists])
+//             setTodolists([...TodolistsList])
 //         }
 //     }
 //
@@ -75,7 +75,7 @@
 //
 //     function removeTodolist(id: string) {
 //         // засунем в стейт список тудулистов, id которых не равны тому, который нужно выкинуть
-//         setTodolists(todolists.filter(tl => tl.id != id));
+//         setTodolists(TodolistsList.filter(tl => tl.id != id));
 //         // удалим таски для этого тудулиста из второго стейта, где мы храним отдельно таски
 //         delete tasks[id]; // удаляем св-во из объекта... значением которого являлся массив тасок
 //         // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
@@ -84,18 +84,18 @@
 //
 //     function changeTodolistTitle(id: string, title: string) {
 //         // найдём нужный todolist
-//         const todolist = todolists.find(tl => tl.id === id);
+//         const todolist = TodolistsList.find(tl => tl.id === id);
 //         if (todolist) {
 //             // если нашёлся - изменим ему заголовок
 //             todolist.title = title;
-//             setTodolists([...todolists]);
+//             setTodolists([...TodolistsList]);
 //         }
 //     }
 //
 //     let todolistId1 = v1();
 //     let todolistId2 = v1();
 //
-//     let [todolists, setTodolists] = useState<Array<TodolistType>>([
+//     let [TodolistsList, setTodolists] = useState<Array<TodolistType>>([
 //         {id: todolistId1, title: 'What to learn', filter: 'all'},
 //         {id: todolistId2, title: 'What to buy', filter: 'all'}
 //     ])
@@ -114,7 +114,7 @@
 //     function addTodolist(title: string) {
 //         let newTodolistId = v1();
 //         let newTodolist: TodolistType = {id: newTodolistId, title: title, filter: 'all'};
-//         setTodolists([newTodolist, ...todolists]);
+//         setTodolists([newTodolist, ...TodolistsList]);
 //         setTasks({
 //             ...tasks,
 //             [newTodolistId]: []
@@ -132,7 +132,7 @@
 //             <Container fixed>
 //
 //                 <Grid container spacing={3}>{
-//                     todolists.map(tl => {
+//                     TodolistsList.map(tl => {
 //                         let allTodolistTasks = tasks[tl.id];
 //                         let tasksForTodolist = allTodolistTasks;
 //

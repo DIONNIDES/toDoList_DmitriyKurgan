@@ -1,9 +1,9 @@
 import React, {memo, useCallback} from 'react';
-import {CheckboxComponent} from './components/CheckboxComponent';
-import {EditableSpan} from './EditableSpan';
+import {CheckboxComponent} from '../../../../components/CheckBox/CheckboxComponent';
+import {EditableSpan} from '../../../../components/EditableSpan/EditableSpan';
 import {useDispatch} from 'react-redux';
-import {deleteTaskTC, updateTaskTC} from './state/tasks-reducer';
-import {TaskStatuses, TaskType} from './api/api';
+import {deleteTaskTC, updateTaskTC} from '../tasks-reducer';
+import {TaskStatuses, TaskType} from '../../../../api/api';
 import {IconButton} from '@mui/material';
 import {Delete} from '@mui/icons-material';
 

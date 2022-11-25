@@ -1,5 +1,4 @@
 import React, {ChangeEvent} from 'react';
-import {TaskStatuses} from '../api/api';
 import {Checkbox} from '@mui/material';
 
 export type PropsType = {

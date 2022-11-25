@@ -1,16 +1,16 @@
 import React, {memo, useCallback, useEffect} from 'react';
-import {AddItemForm} from './AddItemForm';
-import {EditableSpan} from './EditableSpan';
+import {AddItemForm} from '../../../components/AddItemForm/AddItemForm';
+import {EditableSpan} from '../../../components/EditableSpan/EditableSpan';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from './state/store';
-import {TodolistDomainType} from './AppWithRedux';
-import {addTaskTC, requestedTasksTC} from './state/tasks-reducer';
-import {changeTodolistFilterAC, deleteTodolistTC, updateTodolistTC} from './state/todolists-reducer';
+import {AppRootStateType} from '../../../app/store';
+import {TodolistDomainType} from '../../../app/AppWithRedux';
+import {addTaskTC, requestedTasksTC} from './tasks-reducer';
+import {changeTodolistFilterAC, deleteTodolistTC, updateTodolistTC} from './todolists-reducer';
 import {IconButton} from '@material-ui/core';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Button} from '@mui/material';
-import {TaskStatuses, TaskType} from './api/api';
-import {TaskWithRedux} from './TaskWithRedux';
+import {TaskStatuses, TaskType} from '../../../api/api';
+import {TaskWithRedux} from './Task/TaskWithRedux';
 
 
 type PropsType = {
@@ -21,7 +21,7 @@ type PropsType = {
 export const TodolistWithRedux = memo(({todolist}: PropsType) => {
         //console.log('Rerender')
         //забираем нужный тудулист через селектор в данной компоненте
-        //let todo = useSelector<AppRootStateType, TodolistType>(state => state.todolists.find(todo=>todo.id===todolist.id) as TodolistType)
+        //let todo = useSelector<AppRootStateType, TodolistType>(state => state.TodolistsList.find(todo=>todo.id===todolist.id) as TodolistType)
 
         let tasksForTodolist = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolist.id]);
         const dispatch = useDispatch();

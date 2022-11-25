@@ -8,7 +8,7 @@ import {
 
 
 import {v1} from 'uuid';
-import {FilterValuesType, TodolistDomainType} from '../AppWithRedux';
+import {FilterValuesType, TodolistDomainType} from '../../../app/AppWithRedux';
 
 let todolistId1:string;
 let todolistId2:string;
