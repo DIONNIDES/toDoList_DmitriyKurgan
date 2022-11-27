@@ -19,7 +19,6 @@ type PropsType = {
 
 
 export const TodolistWithRedux = memo(({todolist}: PropsType) => {
-        //console.log('Rerender')
         //забираем нужный тудулист через селектор в данной компоненте
         //let todo = useSelector<AppRootStateType, TodolistType>(state => state.TodolistsList.find(todo=>todo.id===todolist.id) as TodolistType)
 
@@ -28,14 +27,15 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
 
         const addTask = useCallback((title: string) => {
             dispatch(addTaskTC(todolist.id, title))
-        }, [dispatch])
+        }, [todolist.id,dispatch])
 
         const removeTodolist = useCallback(() => {
             dispatch(deleteTodolistTC(todolist.id))
-        }, [dispatch]);
+        }, [todolist.id,dispatch]);
+
         const changeTodolistTitle = useCallback((title: string) => {
             dispatch(updateTodolistTC(todolist.id, title));
-        }, [dispatch])
+        }, [todolist.id,dispatch])
 
 
         const onAllClickHandler = useCallback(() => dispatch(changeTodolistFilterAC(todolist.id, 'all')), [dispatch]);
@@ -54,8 +54,8 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
             dispatch(requestedTasksTC(todolist.id))
         }, [todolist.id])
         return <div>
-            <h3><EditableSpan value={todolist.title} onChange={changeTodolistTitle}/>
-                <IconButton onClick={removeTodolist}>
+            <h3><EditableSpan value={todolist.title} onChange={changeTodolistTitle} disabled={todolist.entityStatus === 'loading'}/>
+                <IconButton onClick={removeTodolist} disabled={todolist.entityStatus === 'loading'}>
                     <DeleteIcon/>
                 </IconButton>
             </h3>
@@ -66,7 +66,9 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
 
                         return <TaskWithRedux
                             todolistID={todolist.id}
-                            task={t}/>
+                            task={t}
+                            entityStatus={todolist.entityStatus}
+                        />
                     })
                 }
             </ul>

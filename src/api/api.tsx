@@ -31,10 +31,10 @@ export const todolistAPI = {
         return axiosInstance.post<{title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks`, {title: title})
     },
     deleteTask(todolistId: string, taskId: string) {
-        return axiosInstance.delete(`todo-lists/${todolistId}/tasks/${taskId}`)
+        return axiosInstance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
     updateTask(todolistId: string, taskId: string, model:UpdatedTaskType) {
-        return axiosInstance.put(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+        return axiosInstance.put<{title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 }
 

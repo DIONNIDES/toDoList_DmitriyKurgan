@@ -1,25 +1,73 @@
-import {TasksStateType} from '../../../app/App';
+
 import {addTodolistAC, removeTodolistAC} from './todolists-reducer';
 import {tasksReducer} from './tasks-reducer';
+import {TasksStateType} from '../../../app/AppWithRedux';
+import {TaskPriorities, TaskStatuses} from '../../../api/api';
 
 let startState: TasksStateType;
 beforeEach(()=>{
-    let startState: TasksStateType = {
+    startState = {
         'todolistId1': [
-            {id: '1', title: 'CSS', isDone: false},
-            {id: '2', title: 'JS', isDone: true},
-            {id: '3', title: 'React', isDone: false}
+            {
+                id: '1',
+                title: 'HTML&CSS',
+                status: TaskStatuses.New,
+                startDate: '',
+                addedDate: '',
+                deadline: '',
+                description: '',
+                priority: TaskPriorities.Low,
+                order: 1,
+                todoListId: 'todolistId1',
+                completed: false
+            },
+            {
+                id: '2',
+                title: 'HTML&CSS',
+                status: TaskStatuses.New,
+                startDate: '',
+                addedDate: '',
+                deadline: '',
+                description: '',
+                priority: TaskPriorities.Low,
+                order: 1,
+                todoListId: 'todolistId1',
+                completed: false
+            },
         ],
         'todolistId2': [
-            {id: '1', title: 'bread', isDone: false},
-            {id: '2', title: 'milk', isDone: true},
-            {id: '3', title: 'tea', isDone: false}
+            {
+                id: '1',
+                title: 'HTML&CSS',
+                status: TaskStatuses.New,
+                startDate: '',
+                addedDate: '',
+                deadline: '',
+                description: '',
+                priority: TaskPriorities.Low,
+                order: 1,
+                todoListId: 'todolistId1',
+                completed: false
+            },
+            {
+                id: '2',
+                title: 'HTML&CSS',
+                status: TaskStatuses.New,
+                startDate: '',
+                addedDate: '',
+                deadline: '',
+                description: '',
+                priority: TaskPriorities.Low,
+                order: 1,
+                todoListId: 'todolistId1',
+                completed: false
+            },
         ]
     }
 })
 
 test('new array should be added when new todolist is added', () => {
-    const action = addTodolistAC('new todolist')
+    const action = addTodolistAC({id: '3', title: 'What to learn', addedDate:'', order:1},)
     const endState = tasksReducer(startState, action)
     const keys = Object.keys(endState)
     const newKey = keys.find(k => k != 'todolistId1' && k != 'todolistId2')
