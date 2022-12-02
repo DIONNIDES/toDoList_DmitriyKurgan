@@ -1,9 +1,7 @@
-import {FilterValuesType, TasksStateType, TodolistDomainType} from '../../../app/AppWithRedux';
-import {ResponseType, todolistAPI, TodolistType} from '../../../api/api';
+import {FilterValuesType, TodolistDomainType} from '../../../app/AppWithRedux';
+import {todolistAPI, TodolistType} from '../../../api/api';
 import {AppThunk} from '../../../app/store';
-import {AppInitialStateType, RequestedStatusType, setAppErrorAC, setAppStatusAC} from '../../../app/appReducer';
-import {CombinedState, AnyAction} from 'redux';
-import {ThunkDispatch} from 'redux-thunk';
+import {RequestedStatusType, setAppStatusAC} from '../../../app/appReducer';
 import {handlerServerNetworkError, handleServerAppError} from '../../../utills/error-utills';
 import {AxiosError} from 'axios';
 

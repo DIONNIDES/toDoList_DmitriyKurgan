@@ -1,16 +1,8 @@
-import {
-    addTodolistAC,
-    AddTodolistType,
-    changeTodolistTitleAC,
-    RemoveTodolistType,
-    SetTodolistsACType
-} from './todolists-reducer';
+import {AddTodolistType, RemoveTodolistType, SetTodolistsACType} from './todolists-reducer';
 import {TasksStateType} from '../../../app/AppWithRedux';
-import {ResponseType, TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdatedTaskType} from '../../../api/api';
+import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdatedTaskType} from '../../../api/api';
 import {AppThunk} from '../../../app/store';
-import {AppInitialStateType, setAppErrorAC, setAppStatusAC} from '../../../app/appReducer';
-import {CombinedState, AnyAction} from 'redux';
-import {ThunkDispatch} from 'redux-thunk';
+import {setAppStatusAC} from '../../../app/appReducer';
 import {handlerServerNetworkError, handleServerAppError} from '../../../utills/error-utills';
 import {AxiosError} from 'axios';
 
@@ -85,7 +77,7 @@ export const addTaskTC = (todolistID: string, taskTitle: string): AppThunk => (d
                 handleServerAppError(dispatch, res.data)
             }
         })
-        .catch((error:AxiosError) => {
+        .catch((error: AxiosError) => {
             handlerServerNetworkError(dispatch, error);
         })
 }
@@ -122,11 +114,11 @@ export const updateTaskTC = (todolistID: string, taskID: string, domainModel: Up
                 if (res.data.resultCode === 0) {
                     dispatch(updateTaskAC(todolistID, taskID, domainModel));
                     dispatch(setAppStatusAC('succeeded'));
-                }else {
+                } else {
                     handleServerAppError(dispatch, res.data)
                 }
             })
-            .catch((error:AxiosError) => {
+            .catch((error: AxiosError) => {
                 handlerServerNetworkError(dispatch, error);
             })
     }

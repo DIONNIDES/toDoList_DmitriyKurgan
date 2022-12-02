@@ -27,15 +27,15 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
 
         const addTask = useCallback((title: string) => {
             dispatch(addTaskTC(todolist.id, title))
-        }, [todolist.id,dispatch])
+        }, [todolist.id, dispatch])
 
         const removeTodolist = useCallback(() => {
             dispatch(deleteTodolistTC(todolist.id))
-        }, [todolist.id,dispatch]);
+        }, [todolist.id, dispatch]);
 
         const changeTodolistTitle = useCallback((title: string) => {
             dispatch(updateTodolistTC(todolist.id, title));
-        }, [todolist.id,dispatch])
+        }, [todolist.id, dispatch])
 
 
         const onAllClickHandler = useCallback(() => dispatch(changeTodolistFilterAC(todolist.id, 'all')), [dispatch]);
@@ -43,18 +43,19 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
         const onCompletedClickHandler = useCallback(() => dispatch(changeTodolistFilterAC(todolist.id, 'completed')), [dispatch]);
 
         if (todolist.filter === 'active') {
-            tasksForTodolist = tasksForTodolist.filter(t =>t.status===TaskStatuses.New)
+            tasksForTodolist = tasksForTodolist.filter(t => t.status === TaskStatuses.New)
         } else if (todolist.filter === 'completed') {
-            tasksForTodolist = tasksForTodolist.filter(t => t.status===TaskStatuses.Completed)
+            tasksForTodolist = tasksForTodolist.filter(t => t.status === TaskStatuses.Completed)
         } else {
             tasksForTodolist = tasksForTodolist
         }
 
-        useEffect(()=>{
+        useEffect(() => {
             dispatch(requestedTasksTC(todolist.id))
         }, [todolist.id])
         return <div>
-            <h3><EditableSpan value={todolist.title} onChange={changeTodolistTitle} disabled={todolist.entityStatus === 'loading'}/>
+            <h3><EditableSpan value={todolist.title} onChange={changeTodolistTitle}
+                              disabled={todolist.entityStatus === 'loading'}/>
                 <IconButton onClick={removeTodolist} disabled={todolist.entityStatus === 'loading'}>
                     <DeleteIcon/>
                 </IconButton>

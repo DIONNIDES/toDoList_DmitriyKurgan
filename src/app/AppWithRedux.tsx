@@ -1,18 +1,25 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import {AddItemForm} from '../components/AddItemForm/AddItemForm';
-import {addTodolistTC, requestTodolistsTC} from '../features/TodolistsList/Todolist/todolists-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {TaskType, TodolistType} from '../api/api';
 import {ButtonAppBar} from '../components/ButtonAppBar/ButtonAppBar';
 import {Container} from '@mui/material';
 import {TodolistsList} from '../features/TodolistsList/TodolistsList';
-import {LinearProgress} from '@material-ui/core';
+import {CircularProgress, LinearProgress} from '@material-ui/core';
 import {ErrorSnackBar} from '../components/ErrorSnackBar/ErrorSnackBar';
 import {AppRootStateType} from './store';
-import {RequestedStatusType} from './appReducer';
+import {initializeAppTC, RequestedStatusType} from './appReducer';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
+import {Login} from '../features/login/Login';
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
+
+export enum ROUTES {
+    DEFAULT = '/',
+    LOGIN = '/login',
+    NOT_FOUND = '/404',
+    ALL = '*'
+}
 
 export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
@@ -25,29 +32,36 @@ export type TasksStateType = {
 
 function AppWithRedux() {
     const status = useSelector<AppRootStateType, RequestedStatusType>(state => state.app.status);
+    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
     const dispatch = useDispatch();
 
-    const addTodolist = useCallback((title: string) => {
-        dispatch(addTodolistTC(title));
-    }, [dispatch])
 
     useEffect(() => {
-        dispatch(requestTodolistsTC())
+        dispatch(initializeAppTC());
     }, [])
 
-    return (
-        <div className="App">
-            <ErrorSnackBar/>
-            <ButtonAppBar/>
-            {status === 'loading' && <LinearProgress/>}
-            <Container fixed style={{marginTop: '2rem', marginBottom: '2rem'}}>
-                <AddItemForm addItem={addTodolist}/>
-            </Container>
-            <Container fixed>
-                <TodolistsList/>
-            </Container>
-
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
         </div>
+    }
+    return (
+        <BrowserRouter>
+            <div className="App">
+                <ErrorSnackBar/>
+                <ButtonAppBar/>
+                {status === 'loading' && <LinearProgress/>}
+                <Container fixed>
+                    <Routes>
+                        <Route path={ROUTES.DEFAULT} element={<TodolistsList/>}/>
+                        <Route path={ROUTES.LOGIN} element={<Login/>}/>
+                        <Route path={ROUTES.NOT_FOUND} element={<h1>PAGE NOT FOUND</h1>}/>
+                        <Route path={ROUTES.ALL} element={<Navigate to={ROUTES.NOT_FOUND}/>}/>
+                    </Routes>
+                </Container>
+            </div>
+        </BrowserRouter>
     );
 
 

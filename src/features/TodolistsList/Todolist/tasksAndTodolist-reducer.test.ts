@@ -1,11 +1,10 @@
-
 import {addTodolistAC, removeTodolistAC} from './todolists-reducer';
 import {tasksReducer} from './tasks-reducer';
 import {TasksStateType} from '../../../app/AppWithRedux';
 import {TaskPriorities, TaskStatuses} from '../../../api/api';
 
 let startState: TasksStateType;
-beforeEach(()=>{
+beforeEach(() => {
     startState = {
         'todolistId1': [
             {
@@ -67,7 +66,7 @@ beforeEach(()=>{
 })
 
 test('new array should be added when new todolist is added', () => {
-    const action = addTodolistAC({id: '3', title: 'What to learn', addedDate:'', order:1},)
+    const action = addTodolistAC({id: '3', title: 'What to learn', addedDate: '', order: 1},)
     const endState = tasksReducer(startState, action)
     const keys = Object.keys(endState)
     const newKey = keys.find(k => k != 'todolistId1' && k != 'todolistId2')

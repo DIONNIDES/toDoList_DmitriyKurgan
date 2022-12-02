@@ -119,7 +119,7 @@ test('correct tasks should be deleted from array', () => {
 //dont work
 test('correct task should be added to array', () => {
     const action = addTaskAC('todolistId1', {
-        id: '1',
+        id: '3',
         title: 'YO',
         status: TaskStatuses.New,
         startDate: '',
@@ -136,20 +136,20 @@ test('correct task should be added to array', () => {
     expect(endState).toStrictEqual({
         'todolistId1': [
             {
-                id: '1',
-            title: 'YO',
-            status: TaskStatuses.New,
-            startDate: '',
-            addedDate: '',
-            deadline: '',
-            description: '',
-            priority: TaskPriorities.Low,
-            order: 1,
-            todoListId: 'todolistId1',
-            completed: false
+                id: '3',
+                title: 'YO',
+                status: TaskStatuses.New,
+                startDate: '',
+                addedDate: '',
+                deadline: '',
+                description: '',
+                priority: TaskPriorities.Low,
+                order: 1,
+                todoListId: 'todolistId1',
+                completed: false
             },
             {
-                id: '2',
+                id: '1',
                 title: 'HTML&CSS',
                 status: TaskStatuses.New,
                 startDate: '',
@@ -162,7 +162,7 @@ test('correct task should be added to array', () => {
                 completed: false
             },
             {
-                id: '3',
+                id: '2',
                 title: 'HTML&CSS',
                 status: TaskStatuses.New,
                 startDate: '',
