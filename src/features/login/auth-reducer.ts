@@ -37,7 +37,7 @@ export const loginTC = (formData: LoginParamsType): AppThunk => (dispatch, getSt
         })
 }
 
-export const logouthTC = (): AppThunk => (dispatch, getState) => {
+export const logoutTC = (): AppThunk => (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'));
     authAPI.logout()
         .then(res => {

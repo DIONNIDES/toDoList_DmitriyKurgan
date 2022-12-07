@@ -12,6 +12,7 @@ export const TodolistsList = () => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
     const dispatch = useDispatch();
+
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistTC(title));
     }, [dispatch])

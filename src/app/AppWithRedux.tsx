@@ -33,8 +33,8 @@ export type TasksStateType = {
 function AppWithRedux() {
     const status = useSelector<AppRootStateType, RequestedStatusType>(state => state.app.status);
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(initializeAppTC());
@@ -47,7 +47,7 @@ function AppWithRedux() {
         </div>
     }
     return (
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <div className="App">
                 <ErrorSnackBar/>
                 <ButtonAppBar/>

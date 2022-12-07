@@ -36,16 +36,19 @@ export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-APP-ERRO
 export const setIsInitialized = (isInitialized: boolean) => ({type: 'APP/SET-IS-INITIALIZED', isInitialized} as const);
 
 export const initializeAppTC = (): AppThunk => (dispatch, getState, extraArgument) => {
-    authAPI.me()
+    authAPI.initializeApp()
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedIn(true));
+                dispatch( setAppStatusAC('succeeded'));
             } else {
                 handleServerAppError(dispatch, res.data);
             }
             dispatch(setIsInitialized(true));
         })
-        .catch(err => handlerServerNetworkError(dispatch, err));
+        .catch((err:any) => {
+            handlerServerNetworkError(dispatch, err)
+        });
 }
 
 export type SetAppStatusACType = ReturnType<typeof setAppStatusAC>;

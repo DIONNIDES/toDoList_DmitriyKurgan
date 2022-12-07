@@ -7,12 +7,12 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {useDispatch} from 'react-redux';
-import {logouthTC} from '../../features/login/auth-reducer';
+import {logoutTC} from '../../features/login/auth-reducer';
 
 export function ButtonAppBar() {
     const dispatch = useDispatch();
     const logoutHandler = () => {
-        dispatch(logouthTC());
+        dispatch(logoutTC());
     }
     return (
         <Box sx={{flexGrow: 1}}>

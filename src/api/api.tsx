@@ -14,13 +14,13 @@ const axiosInstance = axios.create(
 //API
 export const authAPI = {
     login(formData: LoginParamsType) {
-        return axiosInstance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId?: number }>>>(`auth/login`, formData)
+        return axiosInstance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId?: number }>>>('auth/login', formData)
     },
     logout() {
-        return axiosInstance.delete<ResponseType>(`auth/login`)
+        return axiosInstance.delete<ResponseType>('auth/login')
     },
-    me() {
-        return axiosInstance.get<ResponseType<{ id: number, email: string, login: string }>>(`auth/me`)
+    initializeApp() {
+        return axiosInstance.get<ResponseType<{ id: number, email: string, login: string }>>('auth/me')
     }
 }
 
