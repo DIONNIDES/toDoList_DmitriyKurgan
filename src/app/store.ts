@@ -4,6 +4,7 @@ import {AnyAction, applyMiddleware, combineReducers, legacy_createStore} from 'r
 import thunkMiddleWare, {ThunkAction} from 'redux-thunk'
 import {appReducer} from './appReducer';
 import {authReducer} from '../features/login/auth-reducer';
+import {configureStore} from '@reduxjs/toolkit';
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -14,8 +15,14 @@ const rootReducer = combineReducers({
     auth: authReducer
 })
 // непосредственно создаём store
-export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleWare)
-)
+// export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleWare)
+// )
+
+export const store = configureStore({
+    reducer:rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunkMiddleWare)
+})
+
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
 

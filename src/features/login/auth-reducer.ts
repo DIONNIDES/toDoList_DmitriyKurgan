@@ -2,32 +2,42 @@ import {AppThunk} from '../../app/store';
 import {authAPI, LoginParamsType} from '../../api/api';
 import {handlerServerNetworkError, handleServerAppError} from '../../utills/error-utills';
 import {setAppStatusAC} from '../../app/appReducer';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-const initialState: InitialStateType = {
+const initialState = {
     isLoggedIn: false
 };
 
-export const authReducer = (state: InitialStateType = initialState, action: AuthActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'AUTH/SET-IS-LOGGED-IN':
-            return {...state, isLoggedIn: action.payload.isLoggedIn}
-        default:
-            return state
+
+
+const authSlice = createSlice({
+    name:'auth',
+    initialState:initialState,
+    reducers:{
+        setIsLoggedIn(state, action:PayloadAction<{value:boolean}>){
+            state.isLoggedIn = action.payload.value
+        }
     }
-}
+})
+
+
+export const authReducer = authSlice.reducer
+export const {setIsLoggedIn} = authSlice.actions
+
+
 //action creators
-export const setIsLoggedIn = (isLoggedIn: boolean) =>
-    ({type: 'AUTH/SET-IS-LOGGED-IN', payload: {isLoggedIn}} as const);
+// export const setIsLoggedIn = (isLoggedIn: boolean) =>
+//     ({type: 'AUTH/SET-IS-LOGGED-IN', payload: {isLoggedIn}} as const);
 
 
 //thunk creators
 export const loginTC = (formData: LoginParamsType): AppThunk => (dispatch, getState) => {
-    dispatch(setAppStatusAC('loading'));
+    dispatch(setAppStatusAC({status:'loading'}));
     authAPI.login(formData)
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedIn(true));
-                dispatch(setAppStatusAC('succeeded'));
+                dispatch(setIsLoggedIn({value:true}));
+                dispatch(setAppStatusAC({status:'succeeded'}));
             } else {
                 handleServerAppError(dispatch, res.data)
             }
@@ -38,12 +48,12 @@ export const loginTC = (formData: LoginParamsType): AppThunk => (dispatch, getSt
 }
 
 export const logoutTC = (): AppThunk => (dispatch, getState) => {
-    dispatch(setAppStatusAC('loading'));
+    dispatch(setAppStatusAC({status:'loading'}));
     authAPI.logout()
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedIn(false));
-                dispatch(setAppStatusAC('succeeded'));
+                dispatch(setIsLoggedIn({value:false}));
+                dispatch(setAppStatusAC({status:'succeeded'}));
             } else {
                 handleServerAppError(dispatch, res.data)
             }
@@ -54,10 +64,3 @@ export const logoutTC = (): AppThunk => (dispatch, getState) => {
 }
 
 
-//TYPES
-type InitialStateType = {
-    isLoggedIn: boolean
-};
-
-type SetIsLoggedInActionType = ReturnType<typeof setIsLoggedIn>;
-type AuthActionsType = SetIsLoggedInActionType

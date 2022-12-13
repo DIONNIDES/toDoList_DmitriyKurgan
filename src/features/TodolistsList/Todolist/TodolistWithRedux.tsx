@@ -38,9 +38,9 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
         }, [todolist.id, dispatch])
 
 
-        const onAllClickHandler = useCallback(() => dispatch(changeTodolistFilterAC(todolist.id, 'all')), [dispatch]);
-        const onActiveClickHandler = useCallback(() => dispatch(changeTodolistFilterAC(todolist.id, 'active')), [dispatch]);
-        const onCompletedClickHandler = useCallback(() => dispatch(changeTodolistFilterAC(todolist.id, 'completed')), [dispatch]);
+        const onAllClickHandler = useCallback(() => dispatch(changeTodolistFilterAC({todolistId:todolist.id, newFilter:'all'})), [dispatch]);
+        const onActiveClickHandler = useCallback(() => dispatch(changeTodolistFilterAC({todolistId:todolist.id, newFilter:'active'})), [dispatch]);
+        const onCompletedClickHandler = useCallback(() => dispatch(changeTodolistFilterAC({todolistId:todolist.id, newFilter:'completed'})), [dispatch]);
 
         if (todolist.filter === 'active') {
             tasksForTodolist = tasksForTodolist.filter(t => t.status === TaskStatuses.New)
@@ -66,6 +66,7 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
                     tasksForTodolist.map(t => {
 
                         return <TaskWithRedux
+                            key={t.id}
                             todolistID={todolist.id}
                             task={t}
                             entityStatus={todolist.entityStatus}
