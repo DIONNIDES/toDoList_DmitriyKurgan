@@ -30,7 +30,7 @@ export const tasksSlice = createSlice({
             }
         },
         setTasksAC(state, action: PayloadAction<{ todolistId: string, tasks: TaskType[] }>) {
-
+            state[action.payload.todolistId] = action.payload.tasks;
         }
     },
     extraReducers: (builder) => {
