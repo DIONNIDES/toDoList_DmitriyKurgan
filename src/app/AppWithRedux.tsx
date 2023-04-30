@@ -1,16 +1,16 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './App.css';
-import {useDispatch, useSelector} from 'react-redux';
-import {TaskType, TodolistType} from '../api/api';
+import {TodolistType} from '../api/todolistAPI';
 import {ButtonAppBar} from '../components/ButtonAppBar/ButtonAppBar';
 import {Container} from '@mui/material';
 import {TodolistsList} from '../features/TodolistsList/TodolistsList';
 import {CircularProgress, LinearProgress} from '@material-ui/core';
 import {ErrorSnackBar} from '../components/ErrorSnackBar/ErrorSnackBar';
-import {AppRootStateType} from './store';
-import {initializeAppTC, RequestedStatusType} from './appReducer';
+import {RequestedStatusType} from './appReducer';
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import {Login} from '../features/login/Login';
+import {TaskType} from "../api/taskAPI";
+import {useInitializeAppQuery} from "../api/authAPI";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
@@ -31,16 +31,9 @@ export type TasksStateType = {
 }
 
 function AppWithRedux() {
-    const status = useSelector<AppRootStateType, RequestedStatusType>(state => state.app.status);
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
+    const {isLoading}= useInitializeAppQuery(null);
 
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(initializeAppTC());
-    }, [])
-
-    if (!isInitialized) {
+    if (isLoading) {
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
@@ -51,7 +44,7 @@ function AppWithRedux() {
             <div className="App">
                 <ErrorSnackBar/>
                 <ButtonAppBar/>
-                {status === 'loading' && <LinearProgress/>}
+                {isLoading && <LinearProgress/>}
                 <Container fixed>
                     <Routes>
                         <Route path={ROUTES.DEFAULT} element={<TodolistsList/>}/>

@@ -1,6 +1,6 @@
-import {addTaskAC, removeTaskAC, tasksReducer, updateTaskAC} from './tasks-reducer';
+import {tasksReducer, tasksSlice} from './tasks-reducer';
 import {TasksStateType} from '../../../app/AppWithRedux';
-import {TaskPriorities, TaskStatuses} from '../../../api/api';
+import {TaskPriorities, TaskStatuses} from '../../../api/todolistAPI';
 
 let startState: TasksStateType;
 
@@ -131,7 +131,7 @@ test('correct task should be added to array', () => {
         todoListId: 'todolistId1',
         completed: false
     },);
-    const endState = tasksReducer(startState, action);
+    const endState = tasksSlice.reducer(startState, action);
 
     expect(endState).toStrictEqual({
         'todolistId1': [

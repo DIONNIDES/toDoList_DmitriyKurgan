@@ -8,21 +8,22 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {FormikErrors, useFormik} from 'formik';
-import {LoginParamsType} from '../../api/api';
-import {loginTC} from './auth-reducer';
 import {Navigate} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {AppRootStateType} from '../../app/store';
 import {ROUTES} from '../../app/AppWithRedux';
+import {ILoginParams} from '../../api/todolistAPI';
+import {useLoginMutation} from "../../api/authAPI";
 
 export const Login = () => {
 
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
-    const dispatch = useDispatch();
+    console.log(isLoggedIn);
+    const [login, {}] = useLoginMutation();
 
     const formik = useFormik({
-        validate: (values: LoginParamsType) => {
-            let errors: FormikErrors<LoginParamsType> = {};
+        validate: (values: ILoginParams) => {
+            let errors: FormikErrors<ILoginParams> = {};
             if (!values.email) {
                 errors.email = 'Email is required!'
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -39,12 +40,14 @@ export const Login = () => {
             rememberMe: false,
             captcha: ''
         },
-        onSubmit: values => {
-            dispatch(loginTC(values));
+        onSubmit: async (values) => {
+            await login(values);
             formik.resetForm();
         },
     });
+
     if (isLoggedIn) {
+        debugger
         return <Navigate to={ROUTES.DEFAULT}/>
     }
     return <Grid container justifyContent={'center'}>

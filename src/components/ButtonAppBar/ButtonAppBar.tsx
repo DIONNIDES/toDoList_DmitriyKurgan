@@ -6,14 +6,18 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import {useDispatch} from 'react-redux';
-import {logoutTC} from '../../features/login/auth-reducer';
+import {useLogoutMutation} from "../../api/authAPI";
+import {AppRootStateType} from "../../app/store";
+import {useSelector} from "react-redux";
 
 export function ButtonAppBar() {
-    const dispatch = useDispatch();
-    const logoutHandler = () => {
-        dispatch(logoutTC());
+    const [logout, {isSuccess}] = useLogoutMutation();
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
+    console.log(isLoggedIn)
+    const logoutHandler = async () => {
+        await logout('');
     }
+
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
@@ -30,7 +34,7 @@ export function ButtonAppBar() {
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         News
                     </Typography>
-                    <Button color="inherit" onClick={logoutHandler}>Log out</Button>
+                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
                 </Toolbar>
             </AppBar>
         </Box>

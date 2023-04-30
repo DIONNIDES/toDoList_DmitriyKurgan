@@ -4,13 +4,15 @@ import {EditableSpan} from '../../../components/EditableSpan/EditableSpan';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../../../app/store';
 import {TodolistDomainType} from '../../../app/AppWithRedux';
-import {addTaskTC, requestedTasksTC} from './tasks-reducer';
-import {changeTodolistFilterAC, deleteTodolistTC, updateTodolistTC} from './todolists-reducer';
 import {IconButton} from '@material-ui/core';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Button} from '@mui/material';
-import {TaskStatuses, TaskType} from '../../../api/api';
+import {
+    TaskStatuses, useDeleteTodolistMutation, useUpdateTodolistMutation,
+} from '../../../api/todolistAPI';
 import {TaskWithRedux} from './Task/TaskWithRedux';
+import {changeTodolistFilterAC} from './todolists-reducer';
+import {TaskType, useCreateTaskMutation, useGetTasksQuery} from "../../../api/taskAPI";
 
 
 type PropsType = {
@@ -22,19 +24,25 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
         //забираем нужный тудулист через селектор в данной компоненте
         //let todo = useSelector<AppRootStateType, TodolistType>(state => state.TodolistsList.find(todo=>todo.id===todolist.id) as TodolistType)
 
+        const[deleteTodolist, {}] = useDeleteTodolistMutation();
+        const[updateTodolist, {}] = useUpdateTodolistMutation();
+        const[createTask, {}] = useCreateTaskMutation();
+        let {data} = useGetTasksQuery({todolistId:todolist.id});
+
         let tasksForTodolist = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolist.id]);
         const dispatch = useDispatch();
 
-        const addTask = useCallback((title: string) => {
-            dispatch(addTaskTC(todolist.id, title))
+        const addTask = useCallback(async (title: string) => {
+            debugger
+            await createTask({todolistId:todolist.id, title});
         }, [todolist.id, dispatch])
 
-        const removeTodolist = useCallback(() => {
-            dispatch(deleteTodolistTC(todolist.id))
+        const removeTodolist = useCallback(async () => {
+            await deleteTodolist(todolist.id);
         }, [todolist.id, dispatch]);
 
-        const changeTodolistTitle = useCallback((title: string) => {
-            dispatch(updateTodolistTC(todolist.id, title));
+        const changeTodolistTitle = useCallback(async (title: string) => {
+          await updateTodolist({todolistID:todolist.id, title})
         }, [todolist.id, dispatch])
 
 
@@ -50,9 +58,6 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
             tasksForTodolist = tasksForTodolist
         }
 
-        useEffect(() => {
-            dispatch(requestedTasksTC(todolist.id))
-        }, [todolist.id])
         return <div>
             <h3><EditableSpan value={todolist.title} onChange={changeTodolistTitle}
                               disabled={todolist.entityStatus === 'loading'}/>
